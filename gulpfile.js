@@ -4,8 +4,7 @@ var gulp = require('gulp'),
 	autoprefixer = require('gulp-autoprefixer'),
 	cleanCSS = require('gulp-clean-css'), 
 	concat = require('gulp-concat'),
-	uglify = require('gulp-uglify'),
-	imagemin = require('gulp-imagemin');
+	uglify = require('gulp-uglify');
 
 var paths = {
 	scripts: {
@@ -15,23 +14,12 @@ var paths = {
 	sass: {
 		src: './scss/**/*.scss',
 		dist: './css'
-	},
-	images: {
-		src: '.img/src/**/*.{jpg,jpeg,png,gif}',
-		dist: './img/dist'
 	}
 };
 
 var config = {
 	autoprefixer: {
 		browsers: ['last 2 versions', '> 5%', 'Firefox ESR']
-	},
-	images: {
-		options: {
-	      optimizationLevel: 3,
-	      progessive: true,
-	      interlaced: true
-	    }
 	}
 }
 
@@ -73,15 +61,9 @@ gulp.task('scripts:build', function() {
 		.pipe(gulp.dest(paths.scripts.dist))
 });
 
-gulp.task('imagemin', function() {
-	return gulp.src(paths.images.src)
-		.pipe(imagemin(config.images))
-		.pipe(gulp.dest(paths.images.dist));
-});
-
 gulp.task('watch', function() {
 	gulp.watch(paths.scripts.src, ['scripts:dev']);
 	gulp.watch(paths.sass.src, ['sass:dev']);
 });
 
-gulp.task('build', ['sass:build', 'scripts:build', 'imagemin'], function() {});
+gulp.task('build', ['sass:build', 'scripts:build'], function() {});
